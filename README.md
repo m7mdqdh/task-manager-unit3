@@ -1,4 +1,4 @@
-# Task Manager
+# Task Manager - Feature branch merge exercise
 
 A beginner-friendly Python command-line app for keeping a small personal task list. Tasks are saved in `tasks.json` beside the program.
 
