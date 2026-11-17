@@ -41,10 +41,15 @@ def add_task(title: str) -> None:
     print(f"Added task {task_id}: {title}")
 
 
-def list_tasks() -> None:
-    """Print all tasks, or a helpful message when none exist."""
+def list_tasks(pending_only: bool = False) -> None:
+    """Print all tasks, or only unfinished tasks when requested."""
     tasks = load_tasks()
-    if not tasks:
+    if pending_only:
+        tasks = [task for task in tasks if not task.get("done")]
+        if not tasks:
+            print("No pending tasks.")
+            return
+    elif not tasks:
         print("No tasks yet. Add one with: python task_manager.py add \"Your task\"")
         return
     for task in tasks:
@@ -69,7 +74,10 @@ def build_parser() -> argparse.ArgumentParser:
     commands = parser.add_subparsers(dest="command", required=True)
     add_parser = commands.add_parser("add", help="add a new task")
     add_parser.add_argument("title", help="task description")
-    commands.add_parser("list", help="show all tasks")
+    list_parser = commands.add_parser("list", help="show tasks")
+    list_parser.add_argument(
+        "--pending", action="store_true", help="show only unfinished tasks"
+    )
     done_parser = commands.add_parser("done", help="mark a task complete")
     done_parser.add_argument("id", type=int, help="numeric task ID")
     return parser
@@ -81,7 +89,7 @@ def main() -> int:
         if args.command == "add":
             add_task(args.title)
         elif args.command == "list":
-            list_tasks()
+            list_tasks(pending_only=args.pending)
         elif args.command == "done":
             complete_task(args.id)
     except (OSError, RuntimeError, ValueError) as exc:
