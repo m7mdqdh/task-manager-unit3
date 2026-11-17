@@ -14,10 +14,11 @@ Open this folder in PyCharm, then use its Run configuration or the built-in term
 ```bash
 python task_manager.py add "Finish Unit 3 homework"
 python task_manager.py list
+python task_manager.py list --pending
 python task_manager.py done 1
 ```
 
-Run `python task_manager.py --help` to see all commands. Task titles must not be blank, and completing an unknown task ID displays an error.
+Use `list --pending` to show unfinished tasks only. Run `python task_manager.py --help` to see all commands. Task titles must not be blank, and completing an unknown task ID displays an error.
 
 ## Project files
 
